@@ -1,0 +1,8 @@
+azure-mgmt-datafactory
+azure-mgmt-resource
+requests
+msrest==0.6.18
+msrestazure==0.6.4
+azure-core==1.7.0
+azure-common==1.1.25
+azure-identity==1.4.0

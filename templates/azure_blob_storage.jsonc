@@ -1,0 +1,18 @@
+{
+  "name": "TradingSystemBlobStorage",
+  "properties": {
+    "description": "Represents my Blob Storage Account associated with my Trading System.",
+    "annotations": [],
+    "type": "AzureBlobStorage",
+    "typeProperties": {
+      "connectionString": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "TradingSystemAzureKeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "blob-storage-connection-string"
+      }
+    }
+  }
+}

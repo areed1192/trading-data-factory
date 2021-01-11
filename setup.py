@@ -7,7 +7,7 @@ with open(file="README.md", mode="r") as fh:
 
 setup(
 
-    name='',
+    name='trading-factory',
 
     # Define Author Info.
     author='Alex Reed',
@@ -17,12 +17,12 @@ setup(
     version='0.1.0',
 
     # Define descriptions.
-    description='',
+    description='A Python Application that leverages the Azure Data Factory to store trading data.',
     long_description=long_description,
     long_description_content_type="text/markdown",
 
     # Define repo location.
-    url='',
+    url='https://github.com/areed1192/trading-data-factory',
 
     # Define dependencies.
     install_requires=[],

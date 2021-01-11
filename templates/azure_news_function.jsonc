@@ -1,0 +1,19 @@
+{
+  "name": "TradingSystemAzureNewsFunction",
+  "properties": {
+    "description": "Represents an Azure Function Service that is used to pull news articles using the 'finnews' library.",
+    "annotations": [],
+    "type": "AzureFunction",
+    "typeProperties": {
+      "functionAppUrl": "https://sigma-function-news.azurewebsites.net",
+      "functionKey": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "TradingSystemAzureKeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "sigma-azure-news-function-key"
+      }
+    }
+  }
+}

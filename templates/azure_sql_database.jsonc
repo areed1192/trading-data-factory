@@ -1,0 +1,18 @@
+{
+  "name": "TradingSystemAzureSqlDatabase",
+  "properties": {
+    "annotations": [],
+    "type": "AzureSqlDatabase",
+    "typeProperties": {
+      "connectionString": {
+        "type": "AzureKeyVaultSecret",
+        "store": {
+          "referenceName": "TradingSystemAzureKeyVault",
+          "type": "LinkedServiceReference"
+        },
+        "secretName": "azure-sec-trading-db"
+      }
+    }
+  },
+  "type": "Microsoft.DataFactory/factories/linkedservices"
+}

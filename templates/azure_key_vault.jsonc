@@ -1,0 +1,11 @@
+{
+  "name": "TradingSystemAzureKeyVault",
+  "properties": {
+    "description": "Represents the Azure Key Vault I use to store my Trading Robot Credentials.",
+    "annotations": [],
+    "type": "AzureKeyVault",
+    "typeProperties": {
+      "baseUrl": "https://sigma-key-vault.vault.azure.net/"
+    }
+  }
+}
