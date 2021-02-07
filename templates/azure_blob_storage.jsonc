@@ -11,7 +11,7 @@
           "referenceName": "TradingSystemAzureKeyVault",
           "type": "LinkedServiceReference"
         },
-        "secretName": "blob-storage-connection-string"
+        "secretName": "blob-sec-connection-string"
       }
     }
   }

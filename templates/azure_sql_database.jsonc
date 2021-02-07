@@ -1,18 +1,18 @@
 {
-  "name": "TradingSystemAzureSqlDatabase",
+  "name": "AzureSqlDatabaseTradingRobot",
   "properties": {
+    "description": "Represents a SQL Server Database instance that houses different SEC filing information.",
     "annotations": [],
     "type": "AzureSqlDatabase",
     "typeProperties": {
       "connectionString": {
         "type": "AzureKeyVaultSecret",
         "store": {
-          "referenceName": "TradingSystemAzureKeyVault",
+          "referenceName": "AzureKeyVaultTrading",
           "type": "LinkedServiceReference"
         },
-        "secretName": "azure-sec-trading-db"
+        "secretName": "azure-sec-database-connection-string"
       }
     }
-  },
-  "type": "Microsoft.DataFactory/factories/linkedservices"
+  }
 }

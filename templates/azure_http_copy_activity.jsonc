@@ -1,0 +1,116 @@
+{
+  "name": "ParseCompanyFilings",
+  "properties": {
+    "description": "Represents a data pipeline that grabs company filings from the SEC on a scheduled basis.",
+    "activities": [
+      {
+        "name": "LookupCikNumbers",
+        "description": "Returns the CIK numbers from the `ST_Tickers_CIK` table.",
+        "type": "Lookup",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT TOP(10) \n    [CIK]\nFROM [dbo].[ST_Tickers_CIK]",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None"
+          },
+          "dataset": {
+            "referenceName": "AzureSecCikTable",
+            "type": "DatasetReference"
+          },
+          "firstRowOnly": false
+        }
+      },
+      {
+        "name": "LoopThroughEachCikNumber",
+        "description": "Loops through each CIK number to get the CIK number.",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "LookupCikNumbers",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "userProperties": [],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('LookupCikNumbers').output.value",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "name": "CopyCikFilingDirectory",
+              "description": "Makes a HTTP GET request to grab the specific company's SEC directory which contains all of their filings.",
+              "type": "Copy",
+              "dependsOn": [],
+              "policy": {
+                "timeout": "7.00:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "userProperties": [],
+              "typeProperties": {
+                "source": {
+                  "type": "JsonSource",
+                  "storeSettings": {
+                    "type": "HttpReadSettings",
+                    "maxConcurrentConnections": 3,
+                    "requestMethod": "GET",
+                    "requestTimeout": ""
+                  },
+                  "formatSettings": {
+                    "type": "JsonReadSettings"
+                  }
+                },
+                "sink": {
+                  "type": "JsonSink",
+                  "storeSettings": {
+                    "type": "AzureBlobStorageWriteSettings"
+                  },
+                  "formatSettings": {
+                    "type": "JsonWriteSettings",
+                    "filePattern": {
+                      "value": "concat(@{item().CIK},'.jsonc')",
+                      "type": "Expression"
+                    }
+                  }
+                },
+                "enableStaging": false
+              },
+              "inputs": [
+                {
+                  "referenceName": "DynamicSecDirectory",
+                  "type": "DatasetReference",
+                  "parameters": {
+                    "cik": {
+                      "value": "@item().CIK",
+                      "type": "Expression"
+                    }
+                  }
+                }
+              ],
+              "outputs": [
+                {
+                  "referenceName": "AzureTradingFactorySecDumps",
+                  "type": "DatasetReference"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "annotations": ["filings", "trading-systems"]
+  }
+}
